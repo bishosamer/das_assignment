@@ -44,8 +44,8 @@ class _HomePageState extends State<HomePage>
                 context: context,
                 builder: (context) {
                   return AlertDialog(
-                    content:
-                        Text("Verify to increase your monthly spending limit"),
+                    content: const Text(
+                        "Verify to increase your monthly spending limit"),
                     actions: [
                       TextButton(
                           onPressed: () {
@@ -53,12 +53,12 @@ class _HomePageState extends State<HomePage>
                                 .read<HomePageBloc>()
                                 .add(VerifyUser(user: state.user!));
                           },
-                          child: Text('Verify Now')),
+                          child: const Text('Verify Now')),
                       TextButton(
                           onPressed: () {
                             Navigator.pop(context);
                           },
-                          child: Text('Nevermind')),
+                          child: const Text('Nevermind')),
                     ],
                   );
                 });
@@ -76,22 +76,25 @@ class _HomePageState extends State<HomePage>
                   children: [
                     BlocBuilder<HomePageBloc, HomePageState>(
                       builder: (context, state) {
-                        print('state changed $state');
                         if (state is HomePageInitial) {
                           context.read<HomePageBloc>().add(Initialize());
                         }
                         if (state is HomePageIdle) {
                           return Column(
                             children: [
-                              Spacer(),
+                              const Spacer(),
+                              Text(
+                                "Current Balance: ${state.user!.balance}",
+                                style: TextStyle(fontSize: 15),
+                              ),
                               const Text(
                                 "Current Beneficiaries:",
                                 style: TextStyle(fontSize: 20),
                               ),
                               BeneficiaryList(),
-                              Spacer(),
+                              const Spacer(),
                               NewBeneficiaryForm(),
-                              Spacer(
+                              const Spacer(
                                 flex: 10,
                               ),
                             ],

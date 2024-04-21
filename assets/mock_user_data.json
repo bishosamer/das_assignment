@@ -1,8 +1,8 @@
 {
     "user": {
-      "balance": 1500,
+      "balance": 6000,
       "monthlySpend": 75,
-      "isVerified": true,
+      "isVerified": false,
       "beneficiaries": [
         {
           "name": "John Doe",

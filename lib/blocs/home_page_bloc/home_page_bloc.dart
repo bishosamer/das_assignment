@@ -34,37 +34,46 @@ class HomePageBloc extends Bloc<HomePageEvent, HomePageState> {
         } else {
           User updatedUser = userRepository.addBeneficiary(
               name: event.name, number: event.number, user: state.user!);
-          emit(ShowMessage(user: updatedUser, message: "added succescully"));
+          emit(ShowMessage(user: updatedUser, message: "added succesfully"));
           emit(HomePageIdle(user: updatedUser));
         }
       },
     );
+    on<VerifyUser>((event, emit) {
+      User updatedUser = userRepository.verifyUser(state.user!);
+      emit(ShowMessage(user: state.user, message: "verified succesfully"));
 
+      emit(HomePageIdle(user: updatedUser));
+    });
     on<AddCredit>(
       (event, emit) {
         if (event.user.balance < event.amount) {
           emit(ShowMessage(
               user: event.user, message: 'Not enough credit in your account'));
+          emit(HomePageIdle(user: event.user));
         } else if (event.user.monthlySpend + event.amount > 3000) {
           emit(ShowMessage(
               user: event.user, message: "monthly spend over the limit"));
+          emit(HomePageIdle(user: event.user));
         } else if ((event.user.isVerified &&
                 event.beneficiary.totalRecharged + event.amount > 1000) ||
             (!event.user.isVerified &&
                 event.beneficiary.totalRecharged + event.amount > 500)) {
           if (!event.user.isVerified) {
             emit(ShowVerificationDialog(user: event.user));
+            emit(HomePageIdle(user: event.user));
           } else {
             emit(ShowMessage(
                 user: event.user,
                 message:
                     "monthly spend for ${event.beneficiary.name} is over the limit"));
+            emit(HomePageIdle(user: event.user));
           }
         } else {
           User updatedUser =
               userRepository.updateUserBalance(event.user, -(event.amount + 1));
           updatedUser = userRepository.updateBeneficiaryBalance(
-              user: event.user,
+              user: updatedUser,
               beneficiary: event.beneficiary,
               amount: event.amount);
           updatedUser.transactions.add(
