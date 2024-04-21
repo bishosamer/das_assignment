@@ -1,0 +1,32 @@
+{
+    "user": {
+      "balance": 1500,
+      "monthlySpend": 75,
+      "isVerified": true,
+      "beneficiaries": [
+        {
+          "name": "John Doe",
+          "number": "+1234567890",
+          "balance": 50,
+          "totalRecharged": 50
+        },
+        {
+          "name": "Jane Smith",
+          "number": "+1987654321",
+          "balance": 25,
+          "totalRecharged": 25
+        }
+      ],
+      "transactions": [
+        {
+          "beneficiary": "John Doe",
+          "amount": 50
+        },
+        {
+          "beneficiary": "Jane Smith",
+          "amount": 25
+        }
+      ]
+    }
+  }
+  
